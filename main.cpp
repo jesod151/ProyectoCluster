@@ -4,7 +4,6 @@
 #include <time.h>
 #include <omp.h>
 #include <stdio.h>
-#define MAX 100
 
 using namespace std;
 
