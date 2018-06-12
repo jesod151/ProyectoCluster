@@ -1,0 +1,55 @@
+https://www.ramonmillan.com/tutoriales/gridcomputing.php
+
+https://www.boston.co.uk/info/nvidia-kepler/what-is-gpu-computing.aspx
+
+Ad25Ca19
+
+xjn4524pk
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ALTER PROCEDURE [dbo].[spGetRecibosAbonado]
+	@idAbonado int = 0
+
+as
+begin
+	
+	--se declaran las tablas
+	--recibo consulta que va a contener los datos de los recibos aún no pagados por el abonado
+	--resultado en el que se le va a ingresar el calculo del monto de los recibos a pagar
+	DECLARE @reciboConsulta table (sec int identity(1,1), idRecibo int, numeroFinca int, idmuni int, idAbonado int, valor int, nombre varchar(30), fechaEmision dateTime, fechaLimite dateTime, fechaPagado dateTime, valorMAgua float, tasaInteres int)
+	DECLARE @resultado table (sec int identity(1,1), idRecibo int, montoAgua float, montoAlumbrado float, montoBasura float, montoParques float, montoPatente float, intMoratorio float, subTotal float) 
+
+
+
+	Insert into @reciboConsulta Select Recibo.ID, Propiedad.NumeroFinca, IdMunicipalidad, IdAbonado, Valor, Abonado.Nombre, FechaEmision, FechaLimite, FechaPagado, ValorMAgua, TasaInteres from Propiedad join Abonado on Propiedad.IdAbonado = Abonado.ID
+			join Recibo on Propiedad.NumeroFinca = Recibo.NumeroFinca
+			join Municipalidad on Propiedad.IdMunicipalidad = Municipalidad.ID where Propiedad.IdAbonado = @idAbonado  and FechaPagado is null ORDER BY FechaEmision desc
+
+	DECLARE @low int = 1
+	DECLARE @high int = 0
+
+	DECLARE @montoAgua float
+	DECLARE @montoAlumbrado float
+	DECLARE @montoBasura float
+	DECLARE @montoParques float
+	DECLARE @montoPatente float
+	DECLARE @intMoratorio float
+	DECLARE @subTotal float
+
+
+
+
+
+	/*
+	Select @high = max(T.sec) from @reciboConsulta T
+	while @low <= @high
+	Begin
+
+	end
+	*/
+
+
+end
+
+
